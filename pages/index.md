@@ -9,9 +9,7 @@ description: Yu Jianghao's Intro
 
 Hey, I'm Yu Jianghao. Or Jianghao, as my friends do.
 
-I'm presently a frontend developer at [@zhihu](https://github.com/zhihu). My primary focus involves crafting SSR web applications using React and TypeScript,  both in-browser and hybrid. Another focus is building a flow editing webapp with Reactflow and bpmn from scratch.
-
-I admire the apps and developers that solve real problems, driven by ambition rather than just market scale or money. I wish I could be one of them someday.
+I'm presently a frontend developer at [@zhihu](https://github.com/zhihu). My primary focus involves crafting SSR web applications using React and TypeScript, both in-browser and hybrid. Another focus is building a flow editing webapp with Reactflow and bpmn from scratch.
 
 Beyond work, I call myself an extreme sports enthusiast, relishing activities such as hiking, skateboarding, snowboarding, climbing, and more. I'm happy to have a teammate if you also enjoy it :p.
 
