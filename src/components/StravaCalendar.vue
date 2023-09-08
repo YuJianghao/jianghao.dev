@@ -127,10 +127,10 @@ function color(day: { activities: BaseActivity[] }) {
           </tr>
         </tbody>
       </table>
-      <div class="text-3xl font-bold pl-12 pt-5 op-20 font-italic">
+      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-2 dark:text-gray-6">
         Distance: {{ readableDistance(activities.reduce((acc, activity) => acc + activity.distance, 0)) }}
       </div>
-      <div class="text-3xl font-bold pl-12 pt-5 op-20 font-italic">
+      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-2 dark:text-gray-6">
         Moving Time: {{ readableTime(activities.reduce((acc, activity) => acc + activity.movingTime, 0)) }}
       </div>
     </div>
