@@ -6,7 +6,9 @@
     "build": "cross-env NODE_ENV=production vite-ssg build",
     "dev": "vite --port 3333 --open",
     "preview": "vite preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "update:strava": "esno ./scripts/update-strava.ts",
+    "prebuild": "npm run update:strava"
   },
   "dependencies": {
     "@vueuse/core": "^10.2.1",

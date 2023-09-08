@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { addDays, differenceInDays, format, subDays } from 'date-fns'
-import activities from '../../cache/strava-activities.json'
+import activities from '../../strava-activities.json'
 
 interface BaseActivity {
   id: number
