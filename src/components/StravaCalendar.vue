@@ -31,7 +31,7 @@ const calendar = computed(() => {
   return list
 })
 function getCalendarIndex(row: number, col: number) {
-  return TOTAL_DAYS - ((col + 1) * 7 - (row + 1))
+  return TOTAL_DAYS - ((col) * 7 + (row + 1))
 }
 function getCalendar(row: number, col: number) {
   return calendar.value[getCalendarIndex(row, col)]
@@ -59,7 +59,7 @@ function getMonthDay(week: number) {
   const startDay = subDays(firstDay, 1)
   const lastDay = addDays(firstDay, 6)
   if (startDay.getMonth() !== lastDay.getMonth())
-    return format(startDay, 'MMM')
+    return format(lastDay, 'MMM')
 }
 function getDayDistance(day: { activities: BaseActivity[] }) {
   return day.activities.reduce((acc, activity) => acc + activity.distance, 0)
@@ -99,7 +99,7 @@ function color(day: { activities: BaseActivity[] }) {
         <thead class="h-4">
           <td class="w-10" />
           <td v-for="week in WEEK_COUNT" :key="week" class="relative w-4">
-            <span class="text-xs absolute top-0">
+            <span class="text-xs absolute top-0 op-50">
               {{ getMonthDay(week - 1) }}
             </span>
           </td>
