@@ -34,6 +34,10 @@ const { y: scroll } = useWindowScroll()
           <span class="lt-md:hidden">Blog</span>
           <div i-ri-article-line md:hidden />
         </RouterLink>
+        <RouterLink to="/run" title="Run">
+          <span class="lt-md:hidden">Run</span>
+          <div i-material-symbols-map-outline md:hidden />
+        </RouterLink>
         <toggle-theme />
       </div>
     </nav>

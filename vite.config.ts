@@ -18,9 +18,10 @@ import SVG from 'vite-svg-loader'
 
 // @ts-expect-error missing types
 import TOC from 'markdown-it-table-of-contents'
+import { updateStrava } from './scripts/update-strava'
 import { slugify } from './scripts/slugify'
 
-const promises: Promise<any>[] = []
+const promises: Promise<any>[] = [updateStrava()]
 
 export default defineConfig({
   resolve: {
