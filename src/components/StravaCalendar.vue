@@ -1,17 +1,8 @@
 <script setup lang="ts">
 import { addDays, differenceInDays, format, subDays } from 'date-fns'
 import activities from '../../strava-activities.json'
-
-interface BaseActivity {
-  id: number
-  name: string
-  distance: number
-  movingTime: number
-  elapsedTime: number
-  totalElevationGain: number
-  sportType: string
-  startDate: string
-}
+import type { BaseActivity } from '~/types'
+import { readableDistance, readableTime } from '~/logics'
 
 const WEEK_COUNT = 53
 const TOTAL_DAYS = WEEK_COUNT * 7 - (6 - new Date().getDay())
@@ -20,7 +11,7 @@ const calendar = computed(() => {
     date: subDays(new Date(), idx),
     activities: [] as BaseActivity[],
   }))
-  activities.forEach((activity) => {
+  ;(activities as BaseActivity[]).forEach((activity) => {
     const date = new Date(activity.startDate)
     const current = addDays(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()), 1)
     const idx = differenceInDays(current, date)
@@ -64,23 +55,6 @@ function getMonthDay(week: number) {
 function getDayDistance(day: { activities: BaseActivity[] }) {
   return day.activities.reduce((acc, activity) => acc + activity.distance, 0)
 }
-function readableDistance(distance: number) {
-  if (distance > 1000)
-    return `${(distance / 1000).toFixed(1)} km`
-  return `${distance.toFixed(0)} m`
-}
-function readableTime(time: number) {
-  const hours = Math.floor(time / 3600)
-  const minutes = Math.floor((time - hours * 3600) / 60)
-  const seconds = time - hours * 3600 - minutes * 60
-  if (hours)
-    return `${hours}h ${minutes}m`
-
-  if (minutes)
-    return `${minutes}m ${seconds}s`
-
-  return `${seconds}s`
-}
 function color(day: { activities: BaseActivity[] }) {
   const distance = getDayDistance(day)
   const thresholds = [5000, 2000, 1000, 0]
@@ -93,8 +67,11 @@ function color(day: { activities: BaseActivity[] }) {
 </script>
 
 <template>
-  <div class="overflow-x-auto py-10 ">
-    <div class="w-max mx-auto">
+  <div class="overflow-x-auto py-10">
+    <div class="text-3xl font-bold pl-12 pt-5 mb-10 font-italic text-gray-4 dark:text-gray">
+      Running & Hiking Activities
+    </div>
+    <div class="w-max">
       <table class="w-max  border-separate border-spacing-1">
         <thead class="h-4">
           <td class="w-10" />
@@ -127,14 +104,15 @@ function color(day: { activities: BaseActivity[] }) {
           </tr>
         </tbody>
       </table>
-      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-2 dark:text-gray-6">
+      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-3 dark:text-gray-6">
         Distance: {{ readableDistance(activities.reduce((acc, activity) => acc + activity.distance, 0)) }}
       </div>
-      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-2 dark:text-gray-6">
+      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-3 dark:text-gray-6">
         Moving Time: {{ readableTime(activities.reduce((acc, activity) => acc + activity.movingTime, 0)) }}
       </div>
     </div>
   </div>
+  <div />
 </template>
 
 <style scoped>

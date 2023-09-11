@@ -1,12 +1,12 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-
 import process from 'node:process'
-
+import polyline from '@mapbox/polyline'
 import dotenv from 'dotenv'
 import humps from 'humps'
 import fetch from 'node-fetch'
+import type { BaseActivity } from '~/types'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -21,6 +21,7 @@ const BASE_URL = 'https://www.strava.com/api/v3'
 const authInfo = await auth()
 const accessToken = authInfo.accessToken
 const activities = await getActivities()
+await writeFile(activities, 'raw-activities.json')
 const baseActivities = await getBaseActivities(activities)
 await writeFile(baseActivities, 'strava-activities.json')
 
@@ -81,7 +82,7 @@ function getActivities() {
 }
 
 function getBaseActivities(list: any[]) {
-  return list.map(item => ({
+  return list.map<BaseActivity>(item => ({
     id: item.id,
     name: item.name,
     distance: item.distance,
@@ -90,5 +91,30 @@ function getBaseActivities(list: any[]) {
     totalElevationGain: item.totalElevationGain,
     sportType: item.sportType,
     startDate: item.startDate,
+    map: transformMap(item.map),
   }))
+}
+
+function transformMap(map: { summaryPolyline: string }) {
+  const summaryPolyline = map.summaryPolyline
+  const decodedPolyline = polyline.decode(summaryPolyline) as [number, number][]
+
+  const lats = decodedPolyline.map(point => point[0])
+  const lngs = decodedPolyline.map(point => point[1])
+
+  const minLat = Math.min(...lats)
+  const maxLat = Math.max(...lats)
+  const minLng = Math.min(...lngs)
+  const maxLng = Math.max(...lngs)
+
+  const earthRadius = 6371000 // 地球半径，单位为 m
+  const latRange = maxLat - minLat // 纬度范围
+  const lngRange = maxLng - minLng // 经度范围
+
+  const width = earthRadius * Math.cos((minLat + maxLat) / 2 / 180 * Math.PI) * lngRange / 180 * Math.PI
+  const height = earthRadius * latRange / 180 * Math.PI
+  const points = decodedPolyline.map<[number, number]>(([lat, lng]) => {
+    return [(lng - minLng) / lngRange * width, (lat - minLat) / latRange * height]
+  })
+  return { width, height, points }
 }

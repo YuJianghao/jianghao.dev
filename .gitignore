@@ -13,3 +13,4 @@ drafts
 public/og
 *.log
 strava-activities.json
+raw-activities.json

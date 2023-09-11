@@ -12,3 +12,19 @@ export interface Post {
   inperson?: boolean
   redirect?: string
 }
+
+export interface BaseActivity {
+  id: number
+  name: string
+  distance: number
+  movingTime: number
+  elapsedTime: number
+  totalElevationGain: number
+  sportType: string
+  startDate: string
+  map: {
+    points: [number, number][]
+    width: number
+    height: number
+  }
+}
