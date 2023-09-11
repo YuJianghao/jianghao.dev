@@ -39,6 +39,7 @@ const svg = computed(() => {
     }"
   >
     <path
+      class="stroke-4 md:stroke-3 lg:stroke-2"
       :d="svg.path.d" stroke="orange" fill="none"
       :style="`--length: ${svg.path.length + 10}; animation-duration: ${svg.path.length / 100}s`"
       @animationend="emits('animation-end')"
@@ -84,6 +85,5 @@ path {
   animation-fill-mode: forwards;
   animation-delay: 0s;
   transform-origin: center;
-  stroke-width: 2px
 }
 </style>

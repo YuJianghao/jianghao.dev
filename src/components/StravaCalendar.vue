@@ -67,52 +67,51 @@ function color(day: { activities: BaseActivity[] }) {
 </script>
 
 <template>
-  <div class="overflow-x-auto py-10">
-    <div class="text-3xl font-bold pl-12 pt-5 mb-10 font-italic text-gray-5 dark:text-gray">
-      Running & Hiking Activities
-    </div>
-    <div class="w-max">
-      <table class="w-max  border-separate border-spacing-1">
-        <thead class="h-4">
+  <div class="text-3xl font-bold pl-12 pt-5 mb-10 font-italic text-gray-5 dark:text-gray">
+    Running & Hiking Activities
+  </div>
+  <div class="overflow-x-auto no-scrollbar">
+    <table class="w-max  border-separate border-spacing-1">
+      <thead>
+        <tr class="h-4">
           <td class="w-10" />
           <td v-for="week in WEEK_COUNT" :key="week" class="relative w-4">
             <span class="text-xs absolute top-0 op-50">
               {{ getMonthDay(week - 1) }}
             </span>
           </td>
-        </thead>
-        <tbody>
-          <tr v-for="(row, rowKey) in table" :key="rowKey" class="h-4">
-            <td class="relative">
-              <span class="absolute bottom--0.05 text-xs op-50">
-                {{ getWeekDay(rowKey) }}
-              </span>
-            </td>
-            <td
-              v-for="(day, colKey) in row" :key="colKey" class="border-rounded-1 relative day"
-              :class="day.activities.length ? color(day) : 'bg-gray-2 dark:bg-gray-7'"
-            >
-              <div v-if="getDayDistance(day)" class="absolute display-none z-1 w-max text-xs top-0 left-5 pointer-events-none p-1 border-rounded bg-gray-9 text-gray-3">
-                <div v-for="activity in day.activities" :key="activity.id">
-                  {{ activity.sportType }}: {{ readableDistance(activity.distance) }} / {{ readableTime(activity.movingTime) }}
-                </div>
-                <div class="op-50 text-2xs">
-                  {{ format(day.date, 'yyyy-MM-dd') }}
-                </div>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(row, rowKey) in table" :key="rowKey" class="h-4">
+          <td class="relative">
+            <span class="absolute bottom--0.05 text-xs op-50">
+              {{ getWeekDay(rowKey) }}
+            </span>
+          </td>
+          <td
+            v-for="(day, colKey) in row" :key="colKey" class="border-rounded-1 relative day"
+            :class="day.activities.length ? color(day) : 'bg-gray-2 dark:bg-gray-7'"
+          >
+            <div v-if="getDayDistance(day)" class="absolute display-none z-1 w-max text-xs top-0 left-5 pointer-events-none p-1 border-rounded bg-gray-9 text-gray-3">
+              <div v-for="activity in day.activities" :key="activity.id">
+                {{ activity.sportType }}: {{ readableDistance(activity.distance) }} / {{ readableTime(activity.movingTime) }}
               </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-4 dark:text-gray-6">
-        Distance: {{ readableDistance(activities.reduce((acc, activity) => acc + activity.distance, 0)) }}
-      </div>
-      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-4 dark:text-gray-6">
-        Moving Time: {{ readableTime(activities.reduce((acc, activity) => acc + activity.movingTime, 0)) }}
-      </div>
-    </div>
+              <div class="op-50 text-2xs">
+                {{ format(day.date, 'yyyy-MM-dd') }}
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <div />
+  <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-4 dark:text-gray-6">
+    Distance: {{ readableDistance(activities.reduce((acc, activity) => acc + activity.distance, 0)) }}
+  </div>
+  <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-4 dark:text-gray-6">
+    Moving Time: {{ readableTime(activities.reduce((acc, activity) => acc + activity.movingTime, 0)) }}
+  </div>
 </template>
 
 <style scoped>
