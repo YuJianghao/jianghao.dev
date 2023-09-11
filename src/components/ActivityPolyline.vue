@@ -33,7 +33,7 @@ const hoverRef = useElementHover(infoElRef)
       position-fixed bottom-0 right-0
       font-bold p-4 mb-10 pr-40 font-italic text-orange op-20
       hover:op-100 hover:bg-write hover:z-1
-      cursor-default
+      cursor-default select-none
     "
     @click="next"
   >

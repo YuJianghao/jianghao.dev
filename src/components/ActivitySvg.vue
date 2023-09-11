@@ -8,7 +8,7 @@ const emits = defineEmits(['animation-end'])
 const { activity } = toRefs(props)
 const svg = computed(() => {
   const { points, width, height } = activity.value.map
-  const rate = 800 / width
+  const rate = 800 / Math.max(width, height)
   function pos([x, y]: [number, number]) {
     return `${x * rate} ${height * rate - y * rate}`
   }
