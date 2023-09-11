@@ -64,6 +64,7 @@ function getActivities() {
   `${BASE_URL}/athlete/activities?${new URLSearchParams(
     decamelizeKeys({
       accessToken,
+      perPage: 200,
     }) as Record<string, string>,
   )}`,
   {
