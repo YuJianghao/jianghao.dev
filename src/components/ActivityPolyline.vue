@@ -8,7 +8,7 @@ function getRandomActivity() {
   return activities[Math.floor(Math.random() * activities.length)] as BaseActivity
 }
 const activityRef = ref(getRandomActivity())
-function onAnimationEnd() {
+function next() {
   activityRef.value = getRandomActivity()
 }
 const activityInfo = computed(() => {
@@ -24,20 +24,23 @@ const hoverRef = useElementHover(infoElRef)
   >
     <ActivitySvg
       :key="activityRef.id" :activity="activityRef" class="h-full w-full"
-      @animation-end="onAnimationEnd"
+      @animation-end="next"
     />
   </div>
   <div
     ref="infoElRef" class="
       transition
       position-fixed bottom-0 right-0
-      font-bold p-20 pb-10 pr-40 font-italic text-orange op-20
+      font-bold p-4 mb-10 pr-40 font-italic text-orange op-20
       hover:op-100 hover:bg-write hover:z-1
       cursor-default
     "
+    @click="next"
   >
     <div>{{ format(new Date(activityRef.startDate), 'yyyy-MM-dd') }}</div>
-    <div>{{ activityRef.name }}</div>
+    <div>
+      <span>{{ activityRef.name }}</span>
+    </div>
     <div>{{ activityInfo }}</div>
   </div>
 </template>

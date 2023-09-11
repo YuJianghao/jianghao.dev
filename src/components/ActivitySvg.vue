@@ -21,6 +21,7 @@ const svg = computed(() => {
   ) * rate
 
   return {
+    rate,
     ratio: width / height,
     viewBox: `-2 -2 ${width * rate + 2} ${height * rate + 2}`,
     path: {
@@ -39,7 +40,7 @@ const svg = computed(() => {
   >
     <path
       :d="svg.path.d" stroke="orange" fill="none"
-      :style="`--length: ${svg.path.length}; animation-duration: ${svg.path.length / 100}s`"
+      :style="`--length: ${svg.path.length + 10}; animation-duration: ${svg.path.length / 100}s`"
       @animationend="emits('animation-end')"
     />
   </svg>
@@ -83,6 +84,6 @@ path {
   animation-fill-mode: forwards;
   animation-delay: 0s;
   transform-origin: center;
-  stroke-width: 0.2vh;
+  stroke-width: 2px
 }
 </style>
