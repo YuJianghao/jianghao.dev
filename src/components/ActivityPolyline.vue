@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
 import activities from '../../strava-activities.json'
-import { readableDistance, readableTime } from '~/logics'
+import { isDark, readableDistance, readableTime } from '~/logics'
 import type { BaseActivity } from '~/types'
 
 function getRandomActivity() {
@@ -19,8 +19,12 @@ const hoverRef = useElementHover(infoElRef)
 </script>
 
 <template>
+  <div v-if="isDark" class="bg fixed top-0 left-0 bottom-0 right-0 pointer-events-none z--1 op-20">
+    <img class="h-full object-tl object-cover max-w-initial max-h-initial" src="/images/snow_mountain_bg.png">
+  </div>
   <div
-    class="activity-polyline transition position-fixed p-4 top-0 bottom-0 right-0 left-30% pointer-events-none" :class="hoverRef ? 'op-100 z-1' : 'op-30'"
+    class="activity-polyline transition position-fixed p-4 top-0 bottom-0 right-0 left-30% pointer-events-none"
+    :class="hoverRef ? 'op-100 z-1' : 'op-30'"
   >
     <ActivitySvg
       :key="activityRef.id" :activity="activityRef" class="h-full w-full"
@@ -31,7 +35,7 @@ const hoverRef = useElementHover(infoElRef)
     ref="infoElRef" class="
       transition
       position-fixed bottom-0 right-0
-      font-bold p-4 mb-10 pr-40 font-italic text-orange op-20
+      font-bold p-4 mb-10 pr-40 font-italic text-orange op-30
       hover:op-100 hover:bg-write hover:z-1
       cursor-default select-none
     "

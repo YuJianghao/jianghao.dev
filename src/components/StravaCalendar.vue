@@ -68,7 +68,7 @@ function color(day: { activities: BaseActivity[] }) {
 
 <template>
   <div class="overflow-x-auto py-10">
-    <div class="text-3xl font-bold pl-12 pt-5 mb-10 font-italic text-gray-4 dark:text-gray">
+    <div class="text-3xl font-bold pl-12 pt-5 mb-10 font-italic text-gray-5 dark:text-gray">
       Running & Hiking Activities
     </div>
     <div class="w-max">
@@ -104,10 +104,10 @@ function color(day: { activities: BaseActivity[] }) {
           </tr>
         </tbody>
       </table>
-      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-3 dark:text-gray-6">
+      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-4 dark:text-gray-6">
         Distance: {{ readableDistance(activities.reduce((acc, activity) => acc + activity.distance, 0)) }}
       </div>
-      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-3 dark:text-gray-6">
+      <div class="text-3xl font-bold pl-12 pt-5 font-italic text-gray-4 dark:text-gray-6">
         Moving Time: {{ readableTime(activities.reduce((acc, activity) => acc + activity.movingTime, 0)) }}
       </div>
     </div>
