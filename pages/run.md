@@ -1,5 +1,5 @@
 ---
-title: Run & Hiking Activities
+title: Running & Hiking Activities
 display: false
 footer: false
 ---
@@ -8,4 +8,4 @@ footer: false
 
 <ActivityPolyline />
 
-<StravaCalendar />
+<ActivityCalendar />

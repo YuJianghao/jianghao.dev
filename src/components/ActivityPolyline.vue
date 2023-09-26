@@ -35,7 +35,7 @@ const hoverRef = useElementHover(infoElRef)
     ref="infoElRef" class="
       transition
       position-fixed bottom-0 right-0
-      font-bold p-4 mb-10 font-italic text-orange op-30
+      font-bold p-4 mb-10 text-orange op-30
       hover:op-100 hover:bg-write hover:z-1
       cursor-default select-none
       text-right sm:text-left
