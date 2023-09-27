@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
-import activities from '../../strava-activities.json'
-import { isDark, readableDistance, readableTime } from '~/logics'
-import type { BaseActivity } from '~/types'
+import { isDark, readableDistance, readableTime, useActivities } from '~/logics'
 
-function getRandomActivity() {
-  return activities[Math.floor(Math.random() * activities.length)] as BaseActivity
-}
-const activityRef = ref(getRandomActivity())
+const { currentActivity, activities, currentActivityIdx } = useActivities()
 function next() {
-  activityRef.value = getRandomActivity()
+  currentActivityIdx.value = Math.floor(Math.random() * activities.value.length)
 }
 const activityInfo = computed(() => {
-  return `${activityRef.value.sportType}: ${readableDistance(activityRef.value.distance)} / ${readableTime(activityRef.value.movingTime)}`
+  return `${currentActivity.value.sportType}: ${readableDistance(currentActivity.value.distance)} / ${readableTime(currentActivity.value.movingTime)}`
 })
 const infoElRef = ref()
 const hoverRef = useElementHover(infoElRef)
@@ -27,7 +22,7 @@ const hoverRef = useElementHover(infoElRef)
     :class="hoverRef ? 'op-100 z-1' : 'op-30'"
   >
     <ActivitySvg
-      :key="activityRef.id" :activity="activityRef" class="h-full w-full"
+      :key="currentActivity.id" :activity="currentActivity" class="h-full w-full"
       @animation-end="next"
     />
   </div>
@@ -41,12 +36,13 @@ const hoverRef = useElementHover(infoElRef)
       text-right sm:text-left
       pr-10 sm:pr-40
       text-xs sm:text-base
+      cursor-pointer
     "
     @click="next"
   >
-    <div>{{ format(new Date(activityRef.startDate), 'yyyy-MM-dd') }}</div>
+    <div>{{ format(new Date(currentActivity.startDate), 'yyyy-MM-dd') }}</div>
     <div>
-      <span>{{ activityRef.name }}</span>
+      <span>{{ currentActivity.name }}</span>
     </div>
     <div>{{ activityInfo }}</div>
   </div>

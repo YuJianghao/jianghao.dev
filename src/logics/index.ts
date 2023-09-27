@@ -1,4 +1,6 @@
 import dayjs from 'dayjs'
+import stravaActivities from '../../strava-activities.json'
+import type { BaseActivity } from '~/types'
 
 export const isDark = useDark()
 export const englishOnly = useStorage('antfu-english-only', false)
@@ -16,6 +18,7 @@ export function readableDistance(distance: number) {
     return `${(distance / 1000).toFixed(1)} km`
   return `${distance.toFixed(0)} m`
 }
+
 export function readableTime(time: number) {
   const hours = Math.floor(time / 3600)
   const minutes = Math.floor((time - hours * 3600) / 60)
@@ -27,4 +30,15 @@ export function readableTime(time: number) {
     return `${minutes}m ${seconds}s`
 
   return `${seconds}s`
+}
+
+const activities = ref<BaseActivity[]>(stravaActivities as BaseActivity[])
+const currentActivityIdx = ref(Math.floor(Math.random() * stravaActivities.length))
+export function useActivities() {
+  const currentActivity = computed(() => activities.value[currentActivityIdx.value])
+  return {
+    activities,
+    currentActivity,
+    currentActivityIdx,
+  }
 }

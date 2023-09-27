@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { addDays, differenceInDays, format, subDays } from 'date-fns'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
-import activities from '../../strava-activities.json'
 import type { BaseActivity } from '~/types'
-import { readableDistance, readableTime } from '~/logics'
+import { readableDistance, readableTime, useActivities } from '~/logics'
 
+const { activities } = useActivities()
 const WEEK_COUNT = 53
 const TOTAL_DAYS = WEEK_COUNT * 7 - (6 - new Date().getDay())
 const calendar = computed(() => {
@@ -12,7 +12,7 @@ const calendar = computed(() => {
     date: subDays(new Date(), idx),
     activities: [] as BaseActivity[],
   }))
-  ;(activities as BaseActivity[]).forEach((activity) => {
+  activities.value.forEach((activity) => {
     const date = new Date(activity.startDate)
     const current = addDays(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()), 1)
     const idx = differenceInDays(current, date)
@@ -83,7 +83,7 @@ watch(breakpoints.current(), () => {
 
 <template>
   <div class="max-w-7xl mx-auto">
-    <div class="text-3xl font-bold pl-12 pt-5 mb-10 text-gray-5 dark:text-gray">
+    <div class="text-3xl font-bold pl-0 md:pl-12 pt-5 mb-10 text-gray-5 dark:text-gray">
       Running & Hiking Activities
     </div>
     <div ref="scrollDivRef" class="overflow-x-auto no-scrollbar">
@@ -122,10 +122,10 @@ watch(breakpoints.current(), () => {
         </tbody>
       </table>
     </div>
-    <div class="text-xl font-bold pl-12 pt-2 mt-4 text-gray-3 dark:text-gray-6">
+    <div class="text-xl font-bold pl-0 md:pl-12 pt-2 mt-4 text-gray-3 dark:text-gray-6">
       Distance: {{ readableDistance(activities.reduce((acc, activity) => acc + activity.distance, 0)) }}
     </div>
-    <div class="text-xl font-bold pl-12 pt-2 text-gray-3 dark:text-gray-6">
+    <div class="text-xl font-bold pl-0 md:pl-12 pt-2 text-gray-3 dark:text-gray-6">
       Moving Time: {{ readableTime(activities.reduce((acc, activity) => acc + activity.movingTime, 0)) }}
     </div>
   </div>

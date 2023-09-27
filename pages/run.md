@@ -9,3 +9,5 @@ footer: false
 <ActivityPolyline />
 
 <ActivityCalendar />
+
+<ActivityList />
