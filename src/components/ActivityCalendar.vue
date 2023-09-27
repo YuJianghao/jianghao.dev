@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { addDays, differenceInDays, format, subDays } from 'date-fns'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import activities from '../../strava-activities.json'
 import type { BaseActivity } from '~/types'
 import { readableDistance, readableTime } from '~/logics'
@@ -64,6 +65,20 @@ function color(day: { activities: BaseActivity[] }) {
       return color[idx]
   }
 }
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const scrollDivRef = ref()
+
+watch(breakpoints.current(), () => {
+  if (!scrollDivRef.value)
+    return
+  scrollDivRef.value.scrollTo({
+    left: scrollDivRef.value.scrollWidth,
+    behavior: 'smooth',
+  })
+}, {
+  immediate: true,
+})
 </script>
 
 <template>
@@ -71,7 +86,7 @@ function color(day: { activities: BaseActivity[] }) {
     <div class="text-3xl font-bold pl-12 pt-5 mb-10 text-gray-5 dark:text-gray">
       Running & Hiking Activities
     </div>
-    <div class="overflow-x-auto no-scrollbar">
+    <div ref="scrollDivRef" class="overflow-x-auto no-scrollbar">
       <table class="w-max  border-separate border-spacing-1 table-fixed">
         <thead>
           <tr class="h-4">
