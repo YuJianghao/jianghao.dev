@@ -36,9 +36,7 @@ const hoverRef = useElementHover(infoElRef)
       text-right sm:text-left
       pr-10 sm:pr-40
       text-xs sm:text-base
-      cursor-pointer
     "
-    @click="next"
   >
     <div>{{ format(new Date(currentActivity.startDate), 'yyyy-MM-dd') }}</div>
     <div>
