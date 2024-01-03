@@ -86,13 +86,13 @@ watch(breakpoints.current(), () => {
     <div class="text-3xl font-bold pl-0 md:pl-12 pt-5 mb-10 text-gray-5 dark:text-gray">
       Running & Hiking Activities
     </div>
-    <div ref="scrollDivRef" class="overflow-x-auto no-scrollbar">
-      <table class="w-max  border-separate border-spacing-1 table-fixed">
+    <div ref="scrollDivRef" class="no-scrollbar">
+      <table class="w-max border-separate border-spacing-1 table-fixed">
         <thead>
           <tr class="h-4">
             <td class="w-10" />
             <td v-for="week in WEEK_COUNT" :key="week" class="relative w-4">
-              <span class="text-xs absolute top-0 op-50">
+              <span class="text-xs absolute top-0 text-gray-4 dark:text-gray-6">
                 {{ getMonthDay(week - 1) }}
               </span>
             </td>
@@ -101,7 +101,7 @@ watch(breakpoints.current(), () => {
         <tbody>
           <tr v-for="(row, rowKey) in table" :key="rowKey" class="h-4">
             <td class="relative">
-              <span class="absolute bottom--0.05 text-xs op-50">
+              <span class="absolute bottom--0.05 text-xs text-gray-4 dark:text-gray-6">
                 {{ getWeekDay(rowKey) }}
               </span>
             </td>
@@ -109,7 +109,11 @@ watch(breakpoints.current(), () => {
               v-for="(day, colKey) in row" :key="colKey" class="border-rounded-1 relative day"
               :class="day.activities.length ? color(day) : 'bg-gray-2 dark:bg-gray-7'"
             >
-              <div v-if="getDayDistance(day)" class="absolute display-none z-1 w-max text-xs top-0 left-5 pointer-events-none p-1 border-rounded bg-gray-9 text-gray-3">
+              <div
+                v-if="getDayDistance(day)" class="
+                  absolute display-none z-1 w-max text-xs top-0 left-5 pointer-events-none p-1 border-rounded
+                  bg-gray-1 text-gray-6 dark:bg-gray-9 dark:text-gray-3"
+              >
                 <div v-for="activity in day.activities" :key="activity.id">
                   {{ activity.sportType }}: {{ readableDistance(activity.distance) }} / {{ readableTime(activity.movingTime) }}
                 </div>
@@ -122,10 +126,10 @@ watch(breakpoints.current(), () => {
         </tbody>
       </table>
     </div>
-    <div class="text-xl font-bold pl-0 md:pl-12 pt-2 mt-4 text-gray-3 dark:text-gray-6">
+    <div class="text-xl font-bold pl-0 md:pl-12 pt-2 mt-4 text-gray-4 dark:text-gray-6">
       Distance: {{ readableDistance(activities.reduce((acc, activity) => acc + activity.distance, 0)) }}
     </div>
-    <div class="text-xl font-bold pl-0 md:pl-12 pt-2 text-gray-3 dark:text-gray-6">
+    <div class="text-xl font-bold pl-0 md:pl-12 pt-2 text-gray-4 dark:text-gray-6">
       Moving Time: {{ readableTime(activities.reduce((acc, activity) => acc + activity.movingTime, 0)) }}
     </div>
   </div>
