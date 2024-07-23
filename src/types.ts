@@ -26,5 +26,5 @@ export interface BaseActivity {
     points: [number, number][]
     width: number
     height: number
-  }
+  } | null
 }

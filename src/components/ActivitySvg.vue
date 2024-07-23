@@ -7,6 +7,8 @@ const props = defineProps<{
 const emits = defineEmits(['animation-end'])
 const { activity } = toRefs(props)
 const svg = computed(() => {
+  if (!activity.value.map)
+    return null
   const { points, width, height } = activity.value.map
   const rate = 800 / Math.max(width, height)
   function pos([x, y]: [number, number]) {
@@ -30,21 +32,31 @@ const svg = computed(() => {
     },
   }
 })
+watch(svg, () => {
+  if (!svg.value) {
+    setTimeout(() => {
+      emits('animation-end')
+    }, 3000)
+  }
+}, {
+  immediate: true,
+})
 </script>
 
 <template>
-  <svg
-    :viewBox="svg.viewBox" preserveAspectRatio="xMaxYMax meet" :style="{
-      aspectRatio: svg.ratio,
-    }"
-  >
-    <path
-      class="stroke-4 md:stroke-3 lg:stroke-2"
-      :d="svg.path.d" stroke="orange" fill="none"
-      :style="`--length: ${svg.path.length + 10}; animation-duration: ${svg.path.length / 100}s`"
-      @animationend="emits('animation-end')"
-    />
-  </svg>
+  <template v-if="svg">
+    <svg
+      :viewBox="svg.viewBox" preserveAspectRatio="xMaxYMax meet" :style="{
+        aspectRatio: svg.ratio,
+      }"
+    >
+      <path
+        class="stroke-4 md:stroke-3 lg:stroke-2" :d="svg.path.d" stroke="orange" fill="none"
+        :style="`--length: ${svg.path.length + 10}; animation-duration: ${svg.path.length / 100}s`"
+        @animationend="emits('animation-end')"
+      />
+    </svg>
+  </template>
 </template>
 
 <style scoped>

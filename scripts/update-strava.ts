@@ -37,11 +37,11 @@ function auth() {
   return fetch(AUTH_URL, {
     method: 'POST',
     body: JSON.stringify(decamelizeKeys({
-      clientId: CLIENT_ID,
-      clientSecret: SECRET,
-      refreshToken: REFRESH_TOKEN,
-      grantType: 'refresh_token',
-    })),
+        clientId: CLIENT_ID,
+        clientSecret: SECRET,
+        refreshToken: REFRESH_TOKEN,
+        grantType: 'refresh_token',
+      })),
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -62,20 +62,20 @@ function auth() {
 
 function getActivities() {
   return fetch(
-  `${BASE_URL}/athlete/activities?${new URLSearchParams(
-    decamelizeKeys({
-      accessToken,
-      perPage: 200,
-    }) as Record<string, string>,
-  )}`,
-  {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+    `${BASE_URL}/athlete/activities?${new URLSearchParams(
+      decamelizeKeys({
+        accessToken,
+        perPage: 200,
+      }) as Record<string, string>,
+    )}`,
+    {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
     },
-  },
   )
     .then(res => res.json() as Promise<any[]>)
     .then(data => camelizeKeys<typeof data>(data)) as Promise<any[]>
@@ -96,6 +96,8 @@ function getBaseActivities(list: any[]) {
 }
 
 function transformMap(map: { summaryPolyline: string }) {
+  if (!map.summaryPolyline)
+    return null
   const summaryPolyline = map.summaryPolyline
   const decodedPolyline = polyline.decode(summaryPolyline) as [number, number][]
 
